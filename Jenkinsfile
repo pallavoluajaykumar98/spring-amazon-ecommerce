@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven 3.8.4'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -9,13 +12,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'docker run --rm -v $PWD:/app -v $HOME/.m2:/root/.m2 -w /app maven:3.9.4-eclipse-temurin-17 mvn -B clean package -DskipTests'
+                sh 'mvn -B clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'docker run --rm -v $PWD:/app -v $HOME/.m2:/root/.m2 -w /app maven:3.9.4-eclipse-temurin-17 mvn test'
+                sh 'mvn test'
             }
         }
 
