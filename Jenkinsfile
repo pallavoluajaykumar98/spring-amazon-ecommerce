@@ -1,5 +1,8 @@
 pipeline {
     agent any
+	options{
+		skipDefaultCheckout(false)
+	}
     tools {
         maven "Maven-3"
     }
@@ -9,20 +12,11 @@ pipeline {
                 checkout scm
             }
         }
-		stage('Debug') {
-            steps {
-				sh 'echo WORKSPACE=$WORKSPACE'
-				sh 'pwd'
-				sh 'ls -l'	
-            }
-        }
         stage('Build') {
             steps {
-				dir("${env.WORKSPACE}"){
 				sh 'pwd'
 				sh 'ls'
-                sh 'mvn -B clean package -DskipTests'
-				}	
+                sh 'mvn -B clean package -DskipTests'	
             }
         }
 
