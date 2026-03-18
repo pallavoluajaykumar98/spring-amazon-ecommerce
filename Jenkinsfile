@@ -3,11 +3,6 @@ pipeline {
     tools {
         maven "Maven-3"
     }
-    
-    environment {
-        IMAGE_NAME = credentials('docker-image-name') // or set a literal like 'amazon-mini-app'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -29,13 +24,10 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    if (!env.IMAGE_NAME?.trim()) {
-                        error "IMAGE_NAME is not set. Configure a pipeline parameter, environment variable, or credentials."
-                    }
-                }
-                sh "docker build -t ${IMAGE_NAME}:${env.BUILD_NUMBER} ."
-                sh "docker tag ${IMAGE_NAME}:${env.BUILD_NUMBER} ${IMAGE_NAME}:latest"
-            }
+                   withDockerRegistry(credentialsId: 'cc13623d-3dd8-4f83-865f-cbde5e6fc529', toolName: 'docker') 
+                   {
+                sh "docker build -t Amazonmini:latest -f Dockerfile ."
+                sh "docker tag Amazonmini:latest  ajkumar98/Amazonmini:latest"
         }
     }
     post {
