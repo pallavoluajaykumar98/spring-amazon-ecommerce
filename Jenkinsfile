@@ -28,7 +28,10 @@ pipeline {
                    {
                 sh "docker build -t Amazonmini:latest -f Dockerfile ."
                 sh "docker tag Amazonmini:latest  ajkumar98/Amazonmini:latest"
-        }
+				   }
+                }
+           }
+	   }
     }
     post {
         always {
