@@ -9,6 +9,13 @@ pipeline {
                 checkout scm
             }
         }
+		stage('Debug') {
+            steps {
+				sh 'echo WORKSPACE=$WORKSPACE'
+				sh 'pwd'
+				sh 'ls -l'	
+            }
+        }
         stage('Build') {
             steps {
 				dir("${env.WORKSPACE}"){
