@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8070
 
 CMD ["java", "-jar", "ecommerce-0.0.1-SNAPSHOT.jar"]
