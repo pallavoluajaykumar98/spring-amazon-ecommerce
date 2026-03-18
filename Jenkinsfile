@@ -21,23 +21,24 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
-            steps {
-                script {
-                   withDockerRegistry(credentialsId: 'cc13623d-3dd8-4f83-865f-cbde5e6fc529', toolName: 'docker') 
-                   {
-                sh "docker run -d  --name amazonmini-ecommerce -p 8070:8070 ajkumar98/amazonmini:latest"
-				   }
-                }
-           }
-	   }
-       stage('Docker Deploy') {
+
+       stage('Docker Build') {
             steps {
                 script {
                    withDockerRegistry(credentialsId: 'cc13623d-3dd8-4f83-865f-cbde5e6fc529', toolName: 'docker') 
                    {
                 sh "docker build -t amazonmini:latest -f Dockerfile ."
                 sh "docker tag amazonmini:latest  ajkumar98/amazonmini:latest"
+				   }
+                }
+           }
+	    }
+                stage('Docker Deploy') {
+            steps {
+                script {
+                   withDockerRegistry(credentialsId: 'cc13623d-3dd8-4f83-865f-cbde5e6fc529', toolName: 'docker') 
+                   {
+                sh "docker run -d  --name amazonmini-ecommerce -p 8070:8070 ajkumar98/amazonmini:latest"
 				   }
                 }
            }
