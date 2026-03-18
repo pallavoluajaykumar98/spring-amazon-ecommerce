@@ -11,9 +11,11 @@ pipeline {
         }
         stage('Build') {
             steps {
+				dir("${env.WORKSPACE}"){
 				sh 'pwd'
 				sh 'ls'
                 sh 'mvn -B clean package -DskipTests'
+				}	
             }
         }
 
