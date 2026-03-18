@@ -12,13 +12,15 @@ pipeline {
                 checkout scm
             }
         }
-       stage('Build') {
-            steps {
-                dir('Amazon-Build') {   // 👈 force correct directory
-                    sh 'mvn clean package -DskipTests'
+        stage('Build') {
+             steps {
+             dir('.') {   // current workspace
+               sh 'pwd'
+               sh 'ls'
+               sh 'mvn clean package -DskipTests'
                 }
-            }
-        }
+             }
+         }
 
         stage('Test') {
             steps {
