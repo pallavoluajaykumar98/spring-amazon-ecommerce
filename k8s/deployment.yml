@@ -1,0 +1,32 @@
+#create Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: amazon-ecommerce
+  labels:
+    name: amazon-ecommerce
+    
+---
+#Create Pods
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: amazon-deployment
+  namespace: amazon-ecommerce
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: amazon
+  template:
+    metadata:
+      labels:
+        app: amazon
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-secret
+      containers:
+         - name: amazon-ecommerce
+           image: ajkumar98/amazon-ecommerce:latest
+           ports:
+             - containerPort: 8070

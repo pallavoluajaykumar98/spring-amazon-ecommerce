@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Amazon Clone</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- HERO BANNER -->
+<section class="banner">
+    <img src="https://m.media-amazon.com/images/I/61cwywLZR-L._SX3000_.jpg">
+</section>
+
+<!-- CATEGORY GRID (FLOATING LIKE AMAZON) -->
+<div class="category-grid">
+
+    <div class="category-card" th:each="card : ${categoryCards}">
+        <h3 th:text="${card.title}"></h3>
+        <div class="category-items">
+            <div th:each="p : ${card.products}">
+                <a th:href="@{/product/{id}(id=${p.id})}">
+                    <img th:src="${p.imageUrl}" th:alt="${p.name}" onerror="this.onerror=null;this.src='/images/placeholder.svg';"/>
+                    <p th:text="${p.name}"></p>
+                </a>
+            </div>
+        </div>
+        <a class="see-more" th:href="@{/}">See more</a>
+    </div>
+
+</div>
+
+<!-- PRODUCTS -->
+<h2 class="section-title">Featured Products</h2>
+
+<div class="product-grid">
+    <div class="product-card" th:each="product : ${products}">
+        
+        <img th:src="${product.imageUrl}" class="product-image"/>
+
+        <h3 th:text="${product.name}"></h3>
+        <p th:text="${product.description}"></p>
+
+        <p class="price">₹<span th:text="${product.price}"></span></p>
+
+        <form th:action="@{/cart/add}" method="post">
+            <input type="hidden" th:value="${product.id}" name="productId"/>
+            <button>Add to Cart</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

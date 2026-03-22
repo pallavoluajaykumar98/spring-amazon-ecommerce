@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Details</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="product-detail-container">
+
+    <!-- LEFT: IMAGE -->
+    <div class="product-image-section">
+        <img th:src="${product.imageUrl}" class="detail-image"/>
+    </div>
+
+    <!-- MIDDLE: INFO -->
+    <div class="product-info">
+        <h1 th:text="${product.name}"></h1>
+
+        <p class="rating">⭐⭐⭐⭐☆</p>
+
+        <p class="price">₹<span th:text="${product.price}"></span></p>
+
+        <p th:text="${product.description}"></p>
+
+        <ul>
+            <li>Free Delivery</li>
+            <li>7 Days Replacement</li>
+            <li>Amazon Fulfilled</li>
+        </ul>
+    </div>
+
+    <!-- RIGHT: BUY BOX -->
+    <div class="buy-box">
+        <p class="price">₹<span th:text="${product.price}"></span></p>
+
+        <p>In stock</p>
+
+        <form th:action="@{/cart/add}" method="post">
+            <input type="hidden" th:value="${product.id}" name="productId"/>
+            <button>Add to Cart</button>
+        </form>
+
+        <button class="buy-now">Buy Now</button>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header class="amazon-header" th:fragment="header">
+
+    <!-- TOP HEADER -->
+    <div class="header-top">
+
+        <!-- Logo -->
+        <div class="logo">
+            <a th:href="@{/}">amazon</a>
+        </div>
+
+        <!-- Deliver Location (Amazon style) -->
+        <div class="location">
+            <span>Deliver to</span>
+            <strong>India</strong>
+        </div>
+
+        <!-- Search -->
+        <form class="search-bar" th:action="@{/search}" method="get">
+            <input type="text" placeholder="Search Amazon.in" name="query">
+            <button type="submit">🔍</button>
+        </form>
+
+        <!-- Right section -->
+        <div class="header-right">
+
+            <!-- Account -->
+            <div class="account">
+                <a th:href="@{/login}">
+                    Hello, Sign in
+                </a> 
+            </div>
+
+            <!-- Orders -->
+            <div class="orders">
+                <a href="#">Returns<br><strong>& Orders</strong></a>
+            </div>
+
+            <!-- Cart -->
+            <div class="cart">
+                <a th:href="@{/cart}">
+                    🛒 Cart
+                    <span class="cart-count" th:text="${cartCount}">0</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SECOND NAV BAR -->
+    <nav class="category-nav">
+        <a href="#">☰ All</a>
+        <a href="#">Fresh</a>
+        <a href="#">MX Player</a>
+        <a href="#">Sell</a>
+        <a href="#">Best Sellers</a>
+        <a href="#">Mobiles</a>
+        <a href="#">Today's Deals</a>
+        <a href="#">Customer Service</a>
+        <a href="#">Prime</a>
+        <a href="#">Fashion</a>
+        <a href="#">Electronics</a>
+        <a href="#">Home & Kitchen</a>
+    </nav>
+
+</header>
+
+</body>
+</html>

@@ -29,28 +29,31 @@ pipeline {
         }
 
 
-       stage('Docker Build') {
+        stage('Docker Build') {
             steps {
                 script {
-                   withDockerRegistry(credentialsId: 'cc13623d-3dd8-4f83-865f-cbde5e6fc529', toolName: 'docker') 
+                   withDockerRegistry(credentialsId: '177155e7-d9cb-4b02-8992-179789356cc0', toolName: 'docker') 
                    {
-                sh "docker build -t amazonmini:latest -f Dockerfile ."
-                sh "docker tag amazonmini:latest  ajkumar98/amazonmini:latest"
+                sh "docker build -t amazon-ecommerce:latest -f Dockerfile ."
+                sh "docker tag amazon-ecommerce:latest  ajkumar98/amazon-ecommerce:latest"
+                sh "docker push ajkumar98/amazon-ecommerce:latest"
+
 				   }
                 }
            }
 	    }
-                stage('Docker Deploy') {
+        stage('Deploy to Kubernetes') {
             steps {
-                script {
-                   withDockerRegistry(credentialsId: 'cc13623d-3dd8-4f83-865f-cbde5e6fc529', toolName: 'docker') 
-                   {
-                sh "docker run -d  --name amazonmini-ecommerce -p 8070:8070 ajkumar98/amazonmini:latest"
-				   }
+				withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]){
+                sh 'kubectl apply -f k8s/deployment.yml'
+                sh 'kubectl apply -f k8s/service.yml'
+                sh 'kubectl rollout restart deployment amazon-deployment -n amazon-ecommerce'
+
+
                 }
            }
-	   }
-    }
+        }
+	}	
     post {
         success {
             echo "Build succeeded"
