@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 	options{
@@ -42,16 +43,25 @@ pipeline {
                 }
            }
 	    }
-        stage('Deploy to Kubernetes') {
+		stage('Deploy to EKS') {
             steps {
-				withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]){
-                sh 'kubectl apply -f k8s/deployment.yml'
-                sh 'kubectl apply -f k8s/service.yml'
-                sh 'kubectl rollout restart deployment amazon-deployment -n amazon-ecommerce'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds'
+                ]]) {
 
+                    sh '''
+                    # Generate kubeconfig for EKS
+                    aws eks update-kubeconfig --region ap-south-1 --name amazon-ecommerce-cluster
 
+                    # Deploy application
+                    kubectl apply -f k8s/deployment.yml
+					kubectl apply -f k8s/service.yml
+					
+					
+                    '''
                 }
-           }
+            }
         }
 	}	
     post {
