@@ -54,6 +54,10 @@ pipeline {
                     # Generate kubeconfig for EKS
                     aws eks update-kubeconfig --region ap-south-1 --name amazon-ecommerce-cluster
 
+                    # Deploy mongodb
+                    kubectl apply -f k8s/mongodb-secret.yml
+                    kubectl apply -f k8s/mongodb-deployment.yml
+                    kubectl apply -f k8s/mongodb-service.yml
                     # Deploy application
                     kubectl apply -f k8s/deployment.yml
 					kubectl apply -f k8s/service.yml
