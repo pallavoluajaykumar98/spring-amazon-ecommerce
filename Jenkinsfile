@@ -61,6 +61,7 @@ pipeline {
                     # Deploy application
                     kubectl apply -f k8s/deployment.yml
 					kubectl apply -f k8s/service.yml
+					kubectl rollout restart deployment amazon-deployment -n amazon-ecommerce
 					
 					
                     '''
