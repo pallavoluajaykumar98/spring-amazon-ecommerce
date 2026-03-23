@@ -30,3 +30,18 @@ spec:
            image: ajkumar98/amazon-ecommerce:latest
            ports:
              - containerPort: 8070
+           env:
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: MONGO_INITDB_ROOT_PASSWORD
+            - name: MONGO_HOST
+              value: mongodb-service
+            - name: MONGO_PORT
+              value: "27017"
